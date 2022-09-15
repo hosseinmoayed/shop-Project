@@ -1,0 +1,55 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+
+{% block title %}
+    لیست مقالات
+{% endblock %}
+
+{% block content %}
+    <section>
+		<div class="container">
+			<div class="row">
+
+				<div class="col-sm-9">
+					<div class="blog-post-area">
+						<h2 class="title text-center">آخریـن اخبـار</h2>
+
+                            {% for article in object_list %}
+
+                                {% include 'includes/article_item.html' %}
+                            {% endfor %}
+
+
+
+						<div class="pagination-area">
+							<ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li ><a class="active" href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
+                                {% endif %}
+                                {% for page in paginator.page_range %}
+                                    <li ><a {% if page == page_obj.number %} class="active" {% endif %} href="?page={{ page }}">{{ page }}</a></li>
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li ><a class="active" href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
+                                {% endif %}
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>دسته بندی مقالات</h2>
+
+                        {% render_partial 'article_module.views.category_partial' %}
+
+
+
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+{% endblock %}

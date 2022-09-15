@@ -1,0 +1,36 @@
+{% extends 'shared/base.html' %}
+
+
+{% block title %}
+    نتیجه تراکنش
+{% endblock %}
+
+
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                    {% if error %}
+                        <div class="alert alert-warning">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                    {% if info %}
+                        <div class="alert alert-warning">
+                            {{ info }}
+                        </div>
+                    {% endif %}
+
+                    {% if success %}
+                        <div class="alert alert-success">
+                            <p>{{ success }}</p>
+                            <p>کدپیگیری : {{ ref_id }}</p>
+                        </div>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

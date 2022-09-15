@@ -1,0 +1,54 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+{% load jalali_tags %}
+{% load poll_extras %}
+{% block title %}
+    خریدهای قبلی
+{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'includes/dashboard_menu.html' %}
+            </div>
+            <div class="col-md-12">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">لیست خرید های گذشته</div>
+
+                          <table class="table">
+                              <thead>
+                                <tr>
+                                      <th class="text-right">شناسه</th>
+                                      <th class="text-right">مبلغ پرداخت شده</th>
+                                      <th class="text-right">تاریخ ثبت فاکتور</th>
+                                      <th class="text-right">جزییات</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  {% for cart in object_list %}
+                                        <tr>
+                                            <td>
+                                                {{ cart.id }}
+                                            </td>
+                                            <td>
+                                                {{ cart.calculate_total_price|splitletter }}
+                                            </td>
+                                            <td>
+                                                {{ cart.payment_date | to_jalali:'%H:%M:%S - %y/%m/%d' }}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'cart-detail-page' cart=cart.id %}"><button class="btn btn-success">جزییات</button></a>
+                                            </td>
+                                        </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                        </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

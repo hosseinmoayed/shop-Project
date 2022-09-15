@@ -1,0 +1,14 @@
+{% extends 'shared/base.html' %}
+{% load thumbnail %}
+{% load poll_extras %}
+{% block title %}
+    سبد خرید
+{% endblock %}
+
+
+{% block content %}
+<section id="main-section">
+    {% include 'includes/cart_ajax.html' %}
+</section>
+
+{% endblock %}

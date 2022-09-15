@@ -1,0 +1,30 @@
+{#{% extends 'shared/base.html' %}#}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'product_module/login.css' %}">
+</head>
+<body>
+    <form>
+
+        <h3>Login</h3>
+        <p id = "username_lbl">username</p>
+        <input id = "username_input" type="text">
+        <p id = "pass_lbl">password</p>
+        <input id = "pass_input" type="text">
+        <button>
+            login
+        </button>
+    </form>
+</body>
+</html>
+
+
+
+

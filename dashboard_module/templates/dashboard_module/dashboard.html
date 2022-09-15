@@ -1,0 +1,18 @@
+{% extends 'shared/base.html' %}
+{% block title %}
+    پنل کاربری
+{% endblock %}
+{% load thumbnail %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {% include 'includes/dashboard_menu.html' %}
+            </div>
+            <div class="col-md-8">
+                <p>Dashboard Panel</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% load thumbnail %}
+{% load jalali_tags %}
+
+{% for comment in comments %}
+    <li class="media">
+        <a class="pull-right" href="#">
+            {% thumbnail comment.user.avatar '121x86' padding=True  as im %}
+                <img class="media-object" src="{{ im.url }}" alt="">
+            {% endthumbnail %}
+        </a>
+        <div class="media-body">
+            <ul class="sinlge-post-meta">
+                <li><i class="fa fa-user"></i>{{ comment.user }}</li>
+                <li><i class="fa fa-clock-o"></i>{{ comment.date | time }}</li>
+                <li><i class="fa fa-calendar"></i>{{ comment.date |to_jalali:'%y/%m/%d'}}</li>
+            </ul>
+            <p>{{ comment.message }}</p>
+        </div>
+    </li>
+{% endfor %}

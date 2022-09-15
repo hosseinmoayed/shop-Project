@@ -1,0 +1,27 @@
+{% extends 'shared/base.html' %}
+{% load thumbnail %}
+{% block title %}
+    ویراش اطلاعات
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <a class="thumbnail">
+                    <img src="{{ user_info.avatar.url }}" style="width: 100%" alt="">
+                </a>
+                {% include 'includes/dashboard_menu.html' %}
+
+            </div>
+            <div class="col-md-8">
+                <form enctype="multipart/form-data" action="{% url 'edit_informations' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" style="margin-bottom: 9px" class="btn btn-success pull-right" id="sabt"  value="ثبت">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

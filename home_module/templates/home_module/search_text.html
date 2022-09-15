@@ -1,0 +1,50 @@
+{% extends 'shared/base.html' %}
+
+
+{% block title %}
+    تاپ شاپ
+{% endblock %}
+
+
+
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 padding-right">
+                <div class="features_items"><!--features_items-->
+                    <h2 class="title text-center">محصولات </h2>
+                    {% if object_list %}
+                        <div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+                          <a class="btn btn-default" role="button" href="{% url 'search-sort' text_search=text_search sort=1 %}">گران ترین</a>
+                          <a class="btn btn-default" role="button" href="{% url 'search-sort' text_search=text_search sort=2 %}">ارزان ترین</a>
+                          <a class="btn btn-default" role="button" href="{% url 'search-sort' text_search=text_search sort=3 %}">جدیدترین</a>
+                        </div>
+                        {% for product in object_list%}
+                            {% include 'includes/product_item.html' with product=product %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-warning">
+                            محصولی یافت نشد
+                        </div>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="active"><a href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
+                        {% endif %}
+                        {% for page in paginator.page_range %}
+                            <li {% if page == page_obj.number %} class="active" {% endif %} ><a href="?page={{ page }}">{{ page }}</a></li>
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="active"><a href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
+                        {% endif %}
+
+                    </ul>
+                </div><!--features_items-->
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,67 @@
+
+
+
+
+.errorlist {
+    padding-right: 0;
+}
+
+#sabt_info {
+    background-color: #2a6496;
+}
+#icon-search{
+    position: relative;
+    right: 310px;
+    bottom: 35px;
+    height: 35px;
+    border: none;
+    width: 40px;
+    border-right: 1px solid #d3d3d2;
+
+
+}
+#icon-search:active {
+    background: #d3d3d2;
+}
+#icon-search:active #result {
+
+}
+#result {
+  border: none;
+  padding: 3px;
+  /*box-shadow: 0px 0px 4px black;*/
+  background: #ffffff;
+  height: 245px;
+  display: none;
+  position: relative;
+  bottom: 35px;
+  width:350px ;
+
+}
+#result ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+}
+#result ul li {
+  padding: 5px 0;
+
+}
+#result ul li a {
+    text-decoration:none;
+    color: black;
+}
+#result ul li:hover {
+  background: #e8e7e7;
+  cursor: pointer;
+}
+#search-box-full {
+    height: 280px;
+}
+/*.btn-group{*/
+/*    position: relative;*/
+/*    right: 740px;*/
+/*    bottom: 35px;*/
+/*}*/
+

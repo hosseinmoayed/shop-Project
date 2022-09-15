@@ -1,0 +1,51 @@
+{% extends 'shared/base.html' %}
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+    جزییات سبد خرید
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        جزییات سبد خرید
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr class="cart_menus">
+                                <th class="text-right image">تصویر</th>
+                                <th class="text-right">محصول</th>
+                                <th class="text-right">قیمت خریداری شده</th>
+                                <th class="text-right">تعداد</th>
+                                <th class="text-right">مجموع</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for detail_cart in cart.detailcart_set.all %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'product_detail' slug=detail_cart.product.slug %}">
+                                            {% thumbnail detail_cart.product.image '125x110' padding=True  as im %}
+                                                <img  src="{{ im.url }}" alt="" id="img-show">
+                                            {% endthumbnail %}
+                                        </a>
+                                    </td>
+                                    <td class="pad-table">{{ detail_cart.product.title }}</td>
+                                    <td class="pad-table">{{ detail_cart.final_price|splitletter }}</td>
+                                    <td class="pad-table">{{ detail_cart.count }}</td>
+                                    <td class="pad-table">{{ detail_cart.get_total_price|splitletter }}</td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

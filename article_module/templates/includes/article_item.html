@@ -1,0 +1,35 @@
+{% load thumbnail %}
+{% load jalali_tags %}
+<div class="single-blog-post">
+    <h3>{{ article.title }}</h3>
+    <div class="post-meta">
+        <ul>
+            <li><i class="fa fa-user"></i> {{ article.writer }}</li>
+            <li><i class="fa fa-clock-o"></i>{{ article.date|to_jalali:'%H:%M:%S' }}</li>
+            <li><i class="fa fa-calendar"></i>{{ article.date.date|to_jalali }}</li>
+        </ul>
+        <span>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-half-o"></i>
+        </span>
+    </div>
+    <a href="">
+            {% if article.image %}
+
+                {% thumbnail article.image '862x398' padding=True  as im %}
+                    <img  src="{{ im.url }}" alt="" id="img-show">
+                {% endthumbnail %}
+            {% else %}
+                {% thumbnail 'images/product/emty.jpg' '862x398' padding=True  as im %}
+                    <img  src="{{ im.url }}" alt="" id="img-show">
+                {% endthumbnail %}
+            {% endif %}
+
+
+    </a>
+    <p>{{ article.short_descriptions }}</p>
+    <a class="btn btn-primary" href="{% url 'article_deatil_page' pk=article.id %}">ادامـه مطلب</a>
+</div>

@@ -1,0 +1,39 @@
+
+
+
+<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+    {% for maincategory in main_category %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    {% if maincategory.articlecategory_set.all %}
+                        <a data-toggle="collapse" data-parent="#accordian" href="#{{ maincategory.url_title }}">
+                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                            {{ maincategory.title }}
+                        </a>
+                    {% else %}
+                        <a href="{% url 'category_article_page' category=maincategory.url_title %}">
+
+                            {{ maincategory.title }}
+                        </a>
+                    {% endif %}
+                </h4>
+            </div>
+                {% if maincategory.articlecategory_set.all %}
+                    <div id="{{ maincategory.url_title }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul>
+                                {% for category in maincategory.articlecategory_set.all %}
+                                    <li><a href="{% url 'category_article_page' category.url_title %}">{{ category.title }} </a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+
+        </div>
+    {% endfor %}
+
+</div><!--/category-productsr-->

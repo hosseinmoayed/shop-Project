@@ -1,0 +1,98 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+{% load thumbnail %}
+{% block title %}
+محصولات
+{% endblock %}
+
+{% block content %}
+    <section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9 padding-right">
+					<div class="features_items"><!--features_items-->
+						<h2 class="title text-center">محصولات </h2>
+                        {% if object_list %}
+                            {% if category and brand %}
+                                <div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+                                    <a class="btn btn-default" role="button" href="{% url 'category_brand_sort' cat=category brand=brand sort=1 %}">گران ترین</a>
+                                    <a class="btn btn-default" role="button" href="{% url 'category_brand_sort' cat=category brand=brand sort=2 %}">ارزان ترین</a>
+                                    <a class="btn btn-default" role="button" href="{% url 'category_brand_sort' cat=category brand=brand sort=3 %}">جدیدترین</a>
+                                </div>
+                            {% elif category %}
+                              <div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+                                  <a class="btn btn-default" role="button" href="{% url 'product_category_sort' cat=category sort=1 %}">گران ترین</a>
+                                  <a class="btn btn-default" role="button" href="{% url 'product_category_sort' cat=category sort=2 %}">ارزان ترین</a>
+                                  <a class="btn btn-default" role="button" href="{% url 'product_category_sort' cat=category sort=3 %}">جدیدترین</a>
+                              </div>
+                            {% endif %}
+
+                            {% for product in object_list%}
+						        {% include 'includes/product_item.html' with product=product %}
+						    {% endfor %}
+                        {% else %}
+                            <div class="alert alert-warning">
+                                محصولی یافت نشد
+                            </div>
+                        {% endif %}
+                        <div class="clearfix"></div>
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="active"><a href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
+                            {% endif %}
+                            {% for page in paginator.page_range %}
+                                <li {% if page == page_obj.number %} class="active" {% endif %} ><a href="?page={{ page }}">{{ page }}</a></li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li class="active"><a href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
+                            {% endif %}
+
+                        </ul>
+					</div><!--features_items-->
+				</div>
+                {% render_partial 'product_module.views.product_category_partial' %}
+                        {% if brands%}
+                            <div class="brands_products"><!--brands_products-->
+                                <h2>برنـد ها</h2>
+                                <div class="brands-name">
+                                    <ul class="nav nav-pills nav-stacked">
+                                        {% for brand in brands %}
+                                            <li><a href="{% url 'product_category_brand' cat=category brand=brand.url_title %}"> <span class="pull-left">({{ brand.product_count }})</span>{{ brand.title }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div><!--/brands_products-->
+                        {% endif %}
+                            {% if category %}
+                                <div class="price-range" id = "sl"><!--price-range-->
+                                    <h2>فیلتـر قیمـت</h2>
+                                    <div class="well">
+                                         <input type="text" class="span2" value="{{ start_price }},{{ end_price }}" data-slider-min="{{ start_price }}" data-slider-max="{{ end_price }}" data-slider-step="1000000" data-slider-value="[{{ start_price }},{{ end_price }}]" id="sl2" ><br />
+                                         <b> تومان{{ end_price }}</b> <b class="pull-left">0 {{ start_price }}</b>
+                                    </div>
+                                </div>
+                                <form action="" method="get" id="send_price">
+                                    <input type="hidden" id="start_price" value="" name="start_price">
+                                    <input type="hidden" id="end_price" value="" name="end_price">
+                                </form>
+                                <button class="btn btn-success btn-block" onclick="Filter()">فیلتر</button><br>
+                            {% endif %}
+
+
+                        {% for banner in banners %}
+                            <div class="shipping text-center">
+                                <a href="{{ banner.url }}">
+                                    {% thumbnail banner.image '270x329' padding=True  as im %}
+                                        <img  src="{{ im.url }}" alt="">
+                                    {% endthumbnail %}
+                                </a>
+                            </div><!--/shipping-->
+                        {% endfor %}
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+{% endblock %}

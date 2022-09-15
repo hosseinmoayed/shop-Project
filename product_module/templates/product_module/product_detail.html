@@ -1,0 +1,210 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+{% load thumbnail %}
+{% load jalali_tags%}
+{% load poll_extras %}
+{% block title %}
+    {{ product.title }}
+{% endblock %}
+
+{% block header_refrences %}
+    <link href="/static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block footer_refrences %}
+    <script src="/static/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="/static/lib/lightbox/js/lightbox-plus-jquery.min.js"></script>
+{% endblock %}
+
+{% block content %}
+   <section>
+		<div class="container">
+			<div class="row">
+
+				<div class="col-sm-9 padding-right">
+					<div class="product-details"><!--product-details-->
+						<div class="col-sm-5">
+							<div class="view-product">
+                                {% if object.image %}
+                                        <img  src="{{ object.image.url }}" alt="" id="img-show">
+                                {% else %}
+
+                                    <img  src="/static/images/product-details/1.jpg" alt="" id="img-show">
+                                {% endif %}
+{#								<h3>بزرگنمایـی</h3>#}
+							</div>
+							<div id="similar-product" class="carousel slide" data-ride="carousel">
+
+								  <!-- Wrapper for slides -->
+								    <div class="carousel-inner">
+										{% for group in products_gallery_group %}
+										    <div class="item {% if forloop.first %}active{% endif %}">
+                                              {% for product_gallery in group %}
+                                                  <a href="{{ product_gallery.image.url }}" data-lightbox="image-gallery" onclick="Show('{{ product_gallery.image.url }}')">
+                                                      {% thumbnail product_gallery.image '85x85' padding=True  as im %}
+                                                        <img src="{{ im.url }}" alt="">
+                                                      {% endthumbnail %}
+                                                  </a>
+                                              {% endfor %}
+
+                                            </div>
+										{% endfor %}
+
+									</div>
+
+								  <!-- Controls -->
+								  <a class="right item-control" href="#similar-product" data-slide="next">
+									<i class="fa fa-angle-right"></i>
+								  </a>
+								  <a class="left item-control" href="#similar-product" data-slide="prev">
+									<i class="fa fa-angle-left"></i>
+								  </a>
+							</div>
+
+						</div>
+						<div class="col-sm-7">
+							<div class="product-information"><!--/product-information-->
+								<img src="/static/images/product-details/new.png" class="newarrival" alt="" />
+								<div>
+									<h2>{{ object.title }}</h2>
+									<p>شناسـه : 0110110</p>
+								</div>
+								<div>
+									<span>
+										<span>قیمت : {{ object.price | splitletter }} </span>
+									</span>
+
+                                    <span>
+                                        <label>تعداد :</label>
+                                        <input type="number" name="product" id="count" min="1" value= "1" class ="search_box"/>
+                                        <button type="submit" onclick="AddProductToCart({{ object.id }})" class="btn btn-fefault cart">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            افـزودن به سبـد خریـد
+                                        </button>
+
+                                    </span>
+								</div>
+								<div>
+									<p><b>موجـودی :</b> در انبـار موجود می باشد</p>
+									{% if object.brand %}
+									    <p><b>برنـد :</b> {{ object.brand.title }} </p>
+									{% endif %}
+								</div>
+
+							</div><!--/product-information-->
+						</div>
+					</div><!--/product-details-->
+
+					<div class="category-tab shop-details-tab"><!--category-tab-->
+						<div class="col-sm-12">
+							<ul class="nav nav-tabs" id="scroll">
+								<li class="active"><a href="#details" data-toggle="tab">جزئیات</a></li>
+								<li><a href="#reviews" data-toggle="tab">نظرات ({{ count_comment }})</a></li>
+							</ul>
+						</div>
+						<div class="tab-content">
+							<div class="tab-pane fade active in" id="details" >
+								<div class="col-md-12">
+                                    {{ object.main_discription | safe }}
+                                </div>
+							</div>
+							<div class="tab-pane fade" id="reviews" >
+								<div class="col-sm-12">
+									<div class="response-area" id="comments_area_product">
+                                        {% for comment in comments %}
+                                                <li class="media">
+                                                <a class="pull-right" href="#">
+                                                    {% thumbnail comment.user.avatar '121x86' padding=True  as im %}
+                                                        <img class="media-object" src="{{ im.url }}" alt="">
+                                                    {% endthumbnail %}
+                                                </a>
+                                                <div class="media-body">
+                                                    <ul class="sinlge-post-meta">
+                                                        <li><i class="fa fa-user"></i>{{ comment.user }}</li>
+                                                        <li><i class="fa fa-clock-o"></i>{{ comment.date | time }}</li>
+                                                        <li><i class="fa fa-calendar"></i>{{ comment.date |to_jalali:'%y/%m/%d'}}</li>
+                                                    </ul>
+                                                    <p>{{ comment.message }}</p>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+
+                                    </div>
+                                    {% if request.user.is_authenticated %}
+                                        <p><b>نظـر خود را بنویسیـد</b></p>
+
+
+                                        <form action="#">
+                                            <textarea id="text-aria-product" name="comment" ></textarea>
+                                            <b>رتبـه : </b> <img src="/static/images/product-details/rating.png" alt="" />
+                                            <button type="button" onclick="AddCommentProduct({{ object.id }})" class="btn btn-default pull-left">
+                                                ارسـال
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <alert class="alert alert-warning">برای ثبت نظر باید در سایت <a href="{% url 'login-page' %}">لاگین</a> کنید</alert>
+                                    {% endif %}
+								</div>
+							</div>
+						</div>
+					</div><!--/category-tab-->
+
+					<div class="recommended_items"><!--recommended_items-->
+						<h2 class="title text-center">محصولات مرتبط</h2>
+
+						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+							<div class="carousel-inner">
+                                {% for group in related_products %}
+                                    <div class="item {% if forloop.first %}active{% endif %}">
+                                        {% for related_product in group %}
+                                            <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        {% thumbnail related_product.image '330x380' padding=True  as im %}
+                                                            <img src="{{ im.url }}" alt="">
+                                                        {% endthumbnail %}
+                                                        <h2>{{ related_product.price | splitletter }}</h2>
+                                                        <p>{{ related_product.short_description }}</p>
+                                                        <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        
+                                    </div>                                
+                                {% endfor %}
+                                
+								
+							</div>
+							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+								<i class="fa fa-angle-left"></i>
+							  </a>
+							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+								<i class="fa fa-angle-right"></i>
+							  </a>
+						</div>
+					</div><!--/recommended_items-->
+
+				</div>
+
+				{% render_partial 'product_module.views.product_category_partial' %}
+
+						{% for banner in banners %}
+                            <div class="shipping text-center">
+                                <a href="{{ banner.url }}">
+                                    {% thumbnail banner.image '270x329' padding=True  as im %}
+                                        <img  src="{{ im.url }}" alt="">
+                                    {% endthumbnail %}
+                                </a>
+                            </div><!--/shipping-->
+                        {% endfor %}
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+{% endblock %}

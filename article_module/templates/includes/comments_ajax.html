@@ -1,0 +1,46 @@
+{% load jalali_tags %}
+{% load thumbnail %}
+<h2> نظرات ({{ comments_count }})</h2>
+{% for comment in comments %}
+    <li class="media">
+        <a class="pull-right" href="#">
+            {% thumbnail comment.user.avatar '121x86' padding=True  as im %}
+                <img class="media-object" src="{{ im.url }}" alt="">
+            {% endthumbnail %}
+        </a>
+
+        <div class="media-body">
+            <ul class="sinlge-post-meta">
+                <li><i class="fa fa-user"></i>{{ comment.user }}</li>
+                <li><i class="fa fa-clock-o"></i> {{ comment.date | time }} </li>
+                <li><i class="fa fa-calendar"></i>{{ comment.date |to_jalali:'%y/%m/%d' }}</li>
+            </ul>
+            <p>{{ comment.text }}</p>
+            <a class="btn btn-primary" onclick="AddReplyComment({{ comment.id }})"><i class="fa fa-reply"></i>پاسـخ</a>
+        </div>
+    </li>
+    {% for comment_reply in comment.articlecomment_set.all %}
+    {% if comment_reply.is_confirmed %}
+
+
+    <li class="media second-media">
+        <a class="pull-right" href="#">
+
+            {% thumbnail comment_reply.user.avatar '121x86' padding=True  as im %}
+                <img class="media-object" src="{{ im.url }}" alt="">
+            {% endthumbnail %}
+            </a>
+        <div class="media-body" id="reply_comment_scroll_{{ comment.id }}">
+            <ul class="sinlge-post-meta">
+                <li><i class="fa fa-user"></i>{{ comment_reply.user }}</li>
+                <li><i class="fa fa-clock-o"></i>{{ comment_reply.date | time }} </li>
+                <li><i class="fa fa-calendar"></i>{{ comment_reply.date | to_jalali }}</li>
+            </ul>
+            <p>{{ comment_reply.text }}</p>
+
+        </div>
+    </li>
+    {% endif %}
+    {% endfor %}
+
+{% endfor %}

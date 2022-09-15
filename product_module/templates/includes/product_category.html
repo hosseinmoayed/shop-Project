@@ -1,0 +1,30 @@
+{% load render_partial %}
+
+
+<div class="col-sm-3">
+    <div class="left-sidebar">
+        <h2>دسته بندی محصولات</h2>
+        <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+            <div class="panel panel-default">
+                {% for maincategory in categories %}
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordian" href="#{{ maincategory.url_title }}">
+                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                {{ maincategory.title }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="{{ maincategory.url_title }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul>
+                                {% for category in maincategory.productcategory_set.all %}
+                                    <li><a href="{% url 'product_category' cat=category.url_title %}"> {{ category.title }} </a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div><!--/category-productsr-->

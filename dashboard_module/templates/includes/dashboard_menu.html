@@ -1,0 +1,10 @@
+<div class="panel panel-info">
+    <div class="list-group">
+    <a href="{% url 'dashboard-panel' %}" class="list-group-item {% if request.resolver_match.url_name == 'dashboard-panel' %}active{% endif %} ">پنل کاربری</a>
+    <a href="{% url 'edit_informations' %}" class="list-group-item {% if request.resolver_match.url_name == "edit_informations" %}active{% endif %}">ویراش اطلاعات</a>
+    <a href="{% url 'change-password' %}" class="list-group-item {% if request.resolver_match.url_name == "change-password" %}active{% endif %}">تغییر کلمه عبور</a>
+    <a href="{% url 'cart-page' %}" class="list-group-item {% if request.resolver_match.url_name == "cart-page" %}active{% endif %}">سبد خرید</a>
+    <a href="{% url 'past-shopping' %}" class="list-group-item {% if request.resolver_match.url_name == "past-shopping" %}active{% endif %}">لیست خرید های قبلی</a>
+    </div>
+</div>
+
